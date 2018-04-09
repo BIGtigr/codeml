@@ -12,6 +12,7 @@ Created on  : Mon Apr  9 22:12:35 2018
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import Imputer
+from sklearn.preprocessing import LabelEncoder
 
 np.set_printoptions(threshold=np.nan)
 
@@ -31,3 +32,10 @@ imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
 imputer = imputer.fit(X[:, 1:3])
 X[:, 1:3] = imputer.transform(X[:, 1:3])
 print(X)
+
+# encoding categorical data
+labelencoder = LabelEncoder()
+X[:, 0] = labelencoder.fit_transform(X[:, 0])
+print(X)
+y = labelencoder.fit_transform(y)
+print(y)
