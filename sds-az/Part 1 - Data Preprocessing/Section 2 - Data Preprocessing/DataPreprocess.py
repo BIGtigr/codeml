@@ -11,6 +11,7 @@ Created on  : Mon Apr  9 22:12:35 2018
 # import the libraries
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import Imputer
 
 np.set_printoptions(threshold=np.nan)
 
@@ -24,3 +25,9 @@ X = dataset.iloc[:, :-1].values
 print(X)
 y = dataset.iloc[:, 3].values
 print(y)
+
+# taking care of the missing data
+imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
+imputer = imputer.fit(X[:, 1:3])
+X[:, 1:3] = imputer.transform(X[:, 1:3])
+print(X)
