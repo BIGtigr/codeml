@@ -40,13 +40,14 @@ print(X)
 # to resolve this we use OneHotEncoder and introduce as many new columns as
 # there are categorical values of a feature
 # each category of the feature is kept as 1s in its respective column, rest 0s
-labelencoder = LabelEncoder()
-X[:, 0] = labelencoder.fit_transform(X[:, 0])
+labelencoder_X = LabelEncoder()
+X[:, 0] = labelencoder_X.fit_transform(X[:, 0])
 onehotencoder = OneHotEncoder(categorical_features=[0])
 X = onehotencoder.fit_transform(X).toarray()
 print(X)
 # the ordering relationship of categorical values of dependent variable does
 # not happen because the model knows that the dependent variable would have
 # categorical values, so no need to use OneHotEncoder for it
-y = labelencoder.fit_transform(y)
+labelencoder_y = LabelEncoder()
+y = labelencoder_y.fit_transform(y)
 print(y)
