@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
 
 np.set_printoptions(threshold=np.nan)
 
@@ -34,8 +35,18 @@ X[:, 1:3] = imputer.transform(X[:, 1:3])
 print(X)
 
 # encoding categorical data
+# the values of these features are categorical and have no relational
+# ordering with respect to various possible encoded integer values
+# to resolve this we use OneHotEncoder and introduce as many new columns as
+# there are categorical values of a feature
+# each category of the feature is kept as 1s in its respective column, rest 0s
 labelencoder = LabelEncoder()
 X[:, 0] = labelencoder.fit_transform(X[:, 0])
+onehotencoder = OneHotEncoder(categorical_features=[0])
+X = onehotencoder.fit_transform(X).toarray()
 print(X)
+# the ordering relationship of categorical values of dependent variable does
+# not happen because the model knows that the dependent variable would have
+# categorical values, so no need to use OneHotEncoder for it
 y = labelencoder.fit_transform(y)
 print(y)
