@@ -14,6 +14,7 @@ import pandas as pd
 from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.cross_validation import train_test_split
 
 np.set_printoptions(threshold=np.nan)
 
@@ -51,3 +52,14 @@ print(X)
 labelencoder_y = LabelEncoder()
 y = labelencoder_y.fit_transform(y)
 print(y)
+
+# splitting the dataset into Training set and the Test set
+# can also be done separately for X and y in two different statements
+X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                    test_size=0.2,
+                                                    random_state=0)
+
+print(X_train)
+print(y_train)
+print(X_test)
+print(y_test)
