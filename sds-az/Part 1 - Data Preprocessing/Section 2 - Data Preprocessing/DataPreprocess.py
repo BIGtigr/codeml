@@ -6,7 +6,7 @@ Created on  : Mon Apr  9 22:12:35 2018
 @author     : Sourabh
 """
 
-#%%
+# %%
 
 # import the libraries
 import numpy as np
@@ -14,9 +14,10 @@ import pandas as pd
 from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split    # cross_validation
 from sklearn.preprocessing import StandardScaler  # for standardized scaling
-#from sklearn.preprocessing import MinMaxScaler    # for normalized scaling
+
+# from sklearn.preprocessing import MinMaxScaler    # for normalized scaling
 
 np.set_printoptions(threshold=np.nan)
 
@@ -86,9 +87,9 @@ X_test = sc_X.transform(X_test)
 #
 # the following example is of normalization i.e.,
 # scaling each feature on the basis of its range, ( x - min ) / ( max - min )
-#norm_X = MinMaxScaler(feature_range=(-1, 1))
-#X_train = norm_X.fit_transform(X_train)
-#X_test = norm_X.transform(X_test)
+# norm_X = MinMaxScaler(feature_range=(-1, 1))
+# X_train = norm_X.fit_transform(X_train)
+# X_test = norm_X.transform(X_test)
 #
 print(X_train)
 print(X_test)
