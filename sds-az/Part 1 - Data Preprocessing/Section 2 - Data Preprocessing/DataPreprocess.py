@@ -15,6 +15,8 @@ from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.cross_validation import train_test_split
+from sklearn.preprocessing import StandardScaler  # for standardized scaling
+#from sklearn.preprocessing import MinMaxScaler    # for normalized scaling
 
 np.set_printoptions(threshold=np.nan)
 
@@ -63,3 +65,30 @@ print(X_train)
 print(y_train)
 print(X_test)
 print(y_test)
+
+# feature scaling: standardization and normalization
+# as the dependent variable y is a categorical variable and takes on only a
+# few integer values, we need not scale it for classifier
+# We would have to scale it if it takes a huge range of values for regression
+#
+# the following example is of standardization i.e.,
+# removing the mean and scaling to unit variance, ( x - µ ) / σ
+# feature scaling on X_test is same as on X_train because we fit the
+# StandardScaler object on X_train and used the same fitting to transform
+# both X_train and X_test
+# it is very important to fit the sc_X on X_train first so that both X_train
+# and X_test are scaled on the same basis
+sc_X = StandardScaler()
+X_train = sc_X.fit_transform(X_train)
+X_test = sc_X.transform(X_test)
+#
+# or
+#
+# the following example is of normalization i.e.,
+# scaling each feature on the basis of its range, ( x - min ) / ( max - min )
+#norm_X = MinMaxScaler(feature_range=(-1, 1))
+#X_train = norm_X.fit_transform(X_train)
+#X_test = norm_X.transform(X_test)
+#
+print(X_train)
+print(X_test)
