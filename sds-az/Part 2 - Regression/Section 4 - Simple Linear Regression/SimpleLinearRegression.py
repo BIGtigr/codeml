@@ -22,7 +22,7 @@ np.set_printoptions(threshold=np.nan)
 # constant properties that need changes according to the actual problem
 Data_File = 'Salary_Data.csv'
 Dependent_Variable_Column = 1
-Test_Data_Size = 1/3
+Test_Data_Size = 1 / 3
 
 # import the dataset & extract the feature and the dependent variable vectors
 dataset = pd.read_csv(Data_File)
@@ -31,11 +31,11 @@ y = dataset.iloc[:, Dependent_Variable_Column].values
 
 # splitting the dataset into Training set and the Test set
 X_train, X_test, y_train, y_test = train_test_split(
-        X,
-        y,
-        test_size=Test_Data_Size,
-        random_state=0
-        )
+    X,
+    y,
+    test_size=Test_Data_Size,
+    random_state=0
+)
 
 """
 # feature scaling: to be used when needed
@@ -68,7 +68,7 @@ plt.plot(X_train, y_train_pred, color='blue', label='Model')
 plt.title('Salary vs Experience')
 plt.xlabel('Years of Experience')
 plt.ylabel('Salary')
-plt.legend(loc='upper-left')
+plt.legend(loc='best')
 plt.show()
 
 # %%
@@ -91,5 +91,5 @@ plt.plot(X_train, y_train_pred, color='blue', label='Model')
 plt.title('Salary vs Experience')
 plt.xlabel('Years of Experience')
 plt.ylabel('Salary')
-plt.legend(loc='upper-left')
+plt.legend(loc='best')
 plt.show()
