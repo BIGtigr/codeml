@@ -70,3 +70,26 @@ plt.xlabel('Years of Experience')
 plt.ylabel('Salary')
 plt.legend(loc='upper-left')
 plt.show()
+
+# %%
+
+# visualising the test set results
+# we should plot the test set data points individually
+plt.scatter(X_test, y_test, c='green', marker='x', label='Test Data')
+# then there is no need to change the x-coordinate of regression line to X_test
+# because we trained our linear regression model on training data set
+# so if we change the x-coordinate of regression line to something else then we
+# would generate new data points which are different from the ones on which the
+# model was trained, which would not represent correct fitted line
+# similarly the y-coordinate for the model is already given by y_train_pred,
+# because all the modelled y points would lie only on the fitted line whether
+# it is for trained data or for test data, so y-coordinate of the regression
+# line is same as given by y_train_pred for each X_train
+# all the points given by y_pred lie on the regression line given by
+# (X_train, y_train_pred) corresponding to the points X_test
+plt.plot(X_train, y_train_pred, color='blue', label='Model')
+plt.title('Salary vs Experience')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.legend(loc='upper-left')
+plt.show()
