@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 # from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
 
 np.set_printoptions(threshold=np.nan)
 
@@ -39,3 +40,10 @@ sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 """
+
+# fitting simple linear regression to the training set
+linRegressor = LinearRegression()
+linRegressor.fit(X_train, y_train)
+
+# predicting the test results
+y_pred = linRegressor.predict(X_test)
