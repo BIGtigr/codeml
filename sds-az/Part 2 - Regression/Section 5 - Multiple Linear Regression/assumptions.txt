@@ -1,0 +1,30 @@
+# assumptions of linear regression:
+#    Linearity
+#        Linearity is the property of a mathematical relationship or function
+#        which means that it can be graphically represented as a straight line.
+#        There should be a linear relationship between the dependent variable
+#        and the independent variable(s). 
+#    Homoscedasticity
+#        A vector of random variables is homoscedastic (homoskedastic) if all
+#        random variables in it have the same finite variance.
+#        This is also known as homogeneity (similarity) of variance.
+#        The variance of error terms should be similar across the values of the
+#        independent variable(s).
+#    Multivariate normality
+#        A multivariate normal distribution is a vector in multiple normally
+#        distributed variables, such that any linear combination of the
+#        variables is also normally distributed.
+#        It is required that the residuals of the regression (i.e.,
+#        the predicted values) should be normally distributed.
+#    Independence of errors
+#        The error in one observed value and its corresponding predicted value
+#        should not depend on the error in another observed value and its
+#        respective predicted value.
+#    Lack of multicollinearity
+#        The independent variables should not highly correlated with each other.
+#        If such variables are there then they should be removed and data
+#        should be refined or we should collect the data again if possible.
+# before building any linear regression model we should do some research and
+# ensure that all these assumptions are true. We should not dive into creating
+# a linear regression model without checking if the previous conditions
+# hold good.
