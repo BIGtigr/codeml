@@ -13,6 +13,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
 # %%
 
@@ -47,3 +48,11 @@ X_train, X_test, y_train, y_test = train_test_split(
     test_size=Test_Data_Size,
     random_state=0
 )
+
+# fitting multiple linear regression model to the training data set
+linRegressor = LinearRegression()
+linRegressor.fit(X_train, y_train)
+
+# testing the performance of our model on test data set by predicting the
+# dependent variable for test data set
+y_pred = linRegressor.predict(X_test)
