@@ -1,0 +1,31 @@
+# Backward Elimination is a technique to do feature reduction.
+# We first use it to select our predictors for the dependent variable.
+# Then we split the data and train the model with the select predictors on the
+# training data set.
+# We then test the trained model on the test data set or cross-validation set.
+#
+# Backward Elimination consists of including all independent variables at once
+# and then removing one by one those that are not statistically significant.
+# While including all independent variables at once in the beginning, the
+# assumption is that each one of those is not significant to predict the
+# dependent variable. This is the null hypothesis (H0) for each of the
+# predictors. The alternate hypothesis (Ha) for each of them will be that it is
+# significant to predict the dependent variable.
+#
+# The steps are as follows:
+# 1. Select a significance level to stay in the model (e.g., SL = 0.05).
+#   If the P-value for each variable lies in the rejection region i.e., it is
+#   less than SL then our H0 for that variable Vi is wrong, and we should go
+#   with Ha for that variable. It means that if the P-value of our independent
+#   variable is below the SL then it is going to stay in the model and if its
+#   P-value is above the SL then we would remove it from the model.
+# 2. Fit the full model with all possible predictors.
+#   It means that initially we include all the features in our optimal data set
+#   and fit the model to it. We need to create a new regressor for this, which
+#   would be updated during the process. This new regressor is not from the
+#   linear_model library, it is from the statsmodels library & called OLS.
+# 3. Consider the predictor with highest P-value. If P > SL then go to step 4,
+#   otherwise go to FIN.
+# 4. Remove the predictor.
+# 5. Go to step 3 and fit the model again with remaining independent variables.
+# FIN. The model is ready.

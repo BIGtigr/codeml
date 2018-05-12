@@ -39,6 +39,8 @@ oneHotEncoder = OneHotEncoder(categorical_features=[Categorical_Column])
 X = oneHotEncoder.fit_transform(X).toarray()
 
 # avoid the dummy variable trap, discard one of the dummy variables
+# this is so important step that the library takes care of it automatically
+# so we don't need to do it here manually
 X = X[:, 1:]
 
 # splitting the dataset into Training set and the Test set
@@ -49,6 +51,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=0
 )
 
+# ============================================================================ #
+
 # fitting multiple linear regression model to the training data set
 linRegressor = LinearRegression()
 linRegressor.fit(X_train, y_train)
@@ -56,3 +60,30 @@ linRegressor.fit(X_train, y_train)
 # testing the performance of our model on test data set by predicting the
 # dependent variable for test data set
 y_pred = linRegressor.predict(X_test)
+
+y_diff = y_test - y_pred
+
+# ============================================================================ #
+
+# building the optimal model using Backward Elimination
+# we need to see that the equation for multiple linear regression is:
+# y = b0 + b1*x1 + b2*x2 + ... + bn*xn
+# which can be treated as
+# y = b0*x0 + b1*x1 + b2*x2 + ... + bn*xn
+# where x0 is 1 for all samples in X
+# most of the libraries are aware of this fact and take care of this
+# but the statsmodel library does not take care of this automatically
+# so we can insert an additional column in our matrix X to represent x0
+# all the values in X[:, 0] will be 1s
+X = np.insert(
+    arr=X,
+    obj=0,      # index of the column where want to insert new column
+    values=np.ones((X.shape[0],), dtype=np.float64),
+    axis=1
+)
+# or
+#X = np.append(
+#        arr=np.ones((X.shape[0],1)),
+#        values=X,
+#        axis=1
+#        )

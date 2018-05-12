@@ -1,0 +1,23 @@
+# Bidirectional Elimination is a technique for feature reduction.
+# It combines both Forward Selection and Backward Elimination in each step. So
+# it is also called Stepwise Regression.
+# It is therefore the most tedious approach.
+# We first use it to select our predictors for the dependent variable.
+# Then we split the data and train the model with the select predictors on the
+# training data set.
+# We then test the trained model on the test data set or cross-validation set.
+#
+# The steps are as follows:
+# 1. Select two significance levels.
+#   a. For Forward Selection: for each variable to enter the model,
+#   (SLENTER = 0.05)
+#   b. For Backward Elimination: for each variable to stay in the model,
+#   (SLSTAY = 0.05)
+# 2. Perform the next step of Forward Selection, the new variable(s) must have
+#   P-value < SLENTER to enter the model.
+# 3. Perform all steps of Backward Elimination, the existing variable(s) must
+#   have P-value < SLSTAY to stay in the model.
+# 4. Steps 2 and 3 are repeated until a stage comes when no new variable(s) can
+#   enter the model, and no existing variable(s) can exit the model, in which
+#   case go to FIN.
+# FIN. The model is ready.

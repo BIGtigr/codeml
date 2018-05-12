@@ -1,0 +1,48 @@
+# Forward Selection is a technique for feature reduction.
+# It works in an opposite way as compared to backward elimination. It is also 
+# therefore a more complex & larger procedure than that.
+# We first use it to select our predictors for the dependent variable.
+# Then we split the data and train the model with the select predictors on the
+# training data set.
+# We then test the trained model on the test data set or cross-validation set.
+#
+# Forward Selection consists of including only one independent variable at a
+# time simultaneously and then slecting the one which is statistically the most
+# one significant among others and repeating this process by finding and adding
+# the next most significant variable.
+# While including each independent variable one at a time, the assumption is
+# that each one of those is not significant to predict the dependent variable.
+# This is the null hypothesis (H0) for each of the predictors. The alternate
+# hypothesis (Ha) for each of them will be that it is significant to predict
+# the dependent variable.
+#
+# The steps are as follows:
+# 1. Select a significance level to enter the model (e.g., SL = 0.05).
+# 2. Fit all simple regression models (y ~ xi) & out of those variables select
+#   the one with lowest P-val.
+#   We take the dependent variable y and we create a separate regression model
+#   with every single independent variable xi that we have. The out of all
+#   those models we select the one which has the lowest P-value for the
+#   independent variable.
+# 3. Keep this variable xi selected above and separately fit all possible
+#   models each with one extra predictor xj added to the set of the one(s) we
+#   already have selected so far.
+#   If so far we have selected a model with m variables, then create multiple
+#   models each with m+1 variables in combination with each of the remaining
+#   ones.
+# 4. Consider the predictor with lowest P-value. If P < SL, go to to step 3,
+#   otherwise go to FIN.
+#   If the P-value for this variable lies in the rejection region i.e., it is
+#   less than SL then our H0 for that variable Vi is wrong, and we should go
+#   with Ha for that variable. It means that if the P-value of our independent
+#   variable is below the SL then it is going to stay in the model and the
+#   regression continues and if its P-value is above the SL then we end the
+#   regression and remove it from the model.
+# FIN. The model is ready.
+#   We reach on this step only when a newly added predictor to the model has a
+#   P-value lowest among others but still greater than SL, which means it is
+#   not significant. And there is no other variable left to be added, which has
+#   a P-value less than SL. In any regression from then onwards, the newly
+#   added variable will remain insignificant. The trick is that we don't
+#   keep this model, but the previous one. Because the variable we just added
+#   is insignificant, so we don't consider it in the model.
