@@ -106,3 +106,34 @@ regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
 
 # Step 3: Select the predictor with highest P-value
 regressor_OLS.summary()
+
+# Step 4, 5 and 3: Remove the predictor, fit the model after removed variable
+# these are repeated until our model is finalized
+# so here we fit the model again after removing the second country column
+X_optimal = X[:, [0, 1, 3, 4, 5]]
+regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
+regressor_OLS.summary()
+#
+# then we fit the model again after removing the first country column
+X_optimal = X[:, [0, 3, 4, 5]]
+regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
+regressor_OLS.summary()
+#
+# then we fit the model again after removing the Administration column
+X_optimal = X[:, [0, 3, 5]]
+regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
+regressor_OLS.summary()
+#
+# then we fit the model again after removing the Marketing Spend column
+X_optimal = X[:, [0, 3]]
+regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
+regressor_OLS.summary()
+
+# here the marketing spend feature generated a P-value of 0.06 which is just
+# slightly above the significance level to stay in the model. So instead of
+# directly removing it from the model as we did above, we can also use other
+# powerful metrics like R-squared and Adjusted R-squared to decide with more
+# certainty whether we need to keep Marketing Spend or remove it. But as far
+# as Backward Elimination is concerned, we have removed it and our model is
+# ready. So we stop the regression here.
+
