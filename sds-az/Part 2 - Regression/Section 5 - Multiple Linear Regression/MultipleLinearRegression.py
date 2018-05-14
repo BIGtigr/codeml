@@ -15,6 +15,8 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import statsmodels.formula.api as sm
+import matplotlib.pyplot as plt
+#from mpl_toolkits.mplot3d import Axes3D
 
 # %%
 
@@ -44,28 +46,6 @@ X = oneHotEncoder.fit_transform(X).toarray()
 # so we don't need to do it here manually
 X = X[:, 1:]
 
-# splitting the dataset into Training set and the Test set
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=Test_Data_Size,
-    random_state=0
-)
-
-# ============================================================================ #
-
-# fitting multiple linear regression model to the training data set
-linRegressor = LinearRegression()
-linRegressor.fit(X_train, y_train)
-
-# testing the performance of our model on test data set by predicting the
-# dependent variable for test data set
-y_pred = linRegressor.predict(X_test)
-
-y_diff = y_test - y_pred
-
-# ============================================================================ #
-
 # building the optimal model using Backward Elimination
 # we need to see that the equation for multiple linear regression is:
 # y = b0 + b1*x1 + b2*x2 + ... + bn*xn
@@ -79,15 +59,9 @@ y_diff = y_test - y_pred
 X = np.insert(
     arr=X,
     obj=0,      # index of the column where want to insert new column
-    values=np.ones((X.shape[0],), dtype=np.float64),
+    values=np.ones((X.shape[0],), dtype=np.int),
     axis=1
 )
-# or
-#X = np.append(
-#        arr=np.ones((X.shape[0],1)),
-#        values=X,
-#        axis=1
-#        )
 
 # Backward Elimination consists of including all independent variables at once
 # and then removing one by one those that are not statistically significant.
@@ -137,3 +111,49 @@ regressor_OLS.summary()
 # as Backward Elimination is concerned, we have removed it and our model is
 # ready. So we stop the regression here.
 
+# splitting the optimal dataset into Training set and the Test set
+X_train, X_test, y_train, y_test = train_test_split(
+    X_optimal,                  # finalised using backward elimination algo
+    y,
+    test_size=Test_Data_Size,
+    random_state=0
+)
+
+# fitting optimal multiple linear regression model to the training data set
+linRegressor = LinearRegression()
+linRegressor.fit(X_train, y_train)
+
+# testing the performance of our model on test data set by predicting the
+# dependent variable for test data set
+y_pred = linRegressor.predict(X_test)
+
+# used to plot the model
+y_train_pred = linRegressor.predict(X_train)
+
+# plot the model and predictions
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+#
+x_axis_train = X_train[:, 0]
+y_axis_train = X_train[:, 1]
+z_axis_train = y_train
+#
+ax.scatter(x_axis_train, y_axis_train, z_axis_train, c='r', marker='o')
+#
+x_axis_test = X_test[:, 0]
+y_axis_test = X_test[:, 1]
+z_axis_test = y_test
+#
+ax.scatter(x_axis_test, y_axis_test, z_axis_test, c='g', marker='o')
+#
+x_axis_model = X_train[:, 0]
+y_axis_model = X_train[:, 1]
+z_axis_model = y_train_pred
+#
+ax.plot(x_axis_model, y_axis_model, z_axis_model)
+#
+ax.set_xlabel('Intercept')
+ax.set_ylabel('R&D Spend')
+ax.set_zlabel('Profit')
+#
+plt.show()
