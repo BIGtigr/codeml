@@ -14,6 +14,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+import statsmodels.formula.api as sm
 
 # %%
 
@@ -87,3 +88,21 @@ X = np.insert(
 #        values=X,
 #        axis=1
 #        )
+
+# Backward Elimination consists of including all independent variables at once
+# and then removing one by one those that are not statistically significant.
+# For this model we are wondering what the probability of two variables being
+# related is, that is our null hypothesis.
+
+# Step 1: Select a Significance Level
+SL = 0.05
+
+# Step 2.1: Initially include all possible regressors (features) in the optimal
+# data set. Therefore, all column indices have been mentioned explicitly here.
+X_optimal = X[:, [0, 1, 2, 3, 4, 5]]
+
+# Step 2.2: Fit the new regressor model to the optimal data set
+regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
+
+# Step 3: Select the predictor with highest P-value
+regressor_OLS.summary()

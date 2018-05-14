@@ -10,7 +10,10 @@
 # assumption is that each one of those is not significant to predict the
 # dependent variable. This is the null hypothesis (H0) for each of the
 # predictors. The alternate hypothesis (Ha) for each of them will be that it is
-# significant to predict the dependent variable.
+# significant to predict the dependent variable. Significance here means what
+# the probability of two variables being related is. The lower the probability
+# the lesser the chance that the feature and target are correlated and the
+# higher is the significance of that feature for the target.
 #
 # The steps are as follows:
 # 1. Select a significance level to stay in the model (e.g., SL = 0.05).
