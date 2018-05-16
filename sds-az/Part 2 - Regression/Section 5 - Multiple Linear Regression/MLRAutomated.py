@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Created on  : Sat Apr 14 18:21:37 2018
+Created on  : Wed May 16 20:20:03 2018
 @author     : Sourabh
 """
 
@@ -18,7 +18,7 @@ import statsmodels.formula.api as sm
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-# %%
+#==============================================================================#
 
 np.set_printoptions(threshold=np.nan)
 
@@ -63,6 +63,8 @@ X = np.insert(
     axis=1
 )
 
+#==============================================================================#
+
 # Backward Elimination consists of including all independent variables at once
 # and then removing one by one those that are not statistically significant.
 # For this model we are wondering what the probability of two variables being
@@ -72,36 +74,27 @@ X = np.insert(
 SL = 0.05
 
 # Step 2.1: Initially include all possible regressors (features) in the optimal
-# data set. Therefore, all column indices have been mentioned explicitly here.
-X_optimal = X[:, [0, 1, 2, 3, 4, 5]]
+# data set.
+X_optimal = X[:, :]
 
-# Step 2.2: Fit the new regressor model to the optimal data set
-regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
-
-# Step 3: Select the predictor with highest P-value
-regressor_OLS.summary()
-
-# Step 4, 5 and 3: Remove the predictor, fit the model after removed variable
-# these are repeated until our model is finalized
-# so here we fit the model again after removing the second country column
-X_optimal = X[:, [0, 1, 3, 4, 5]]
-regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
-regressor_OLS.summary()
-#
-# then we fit the model again after removing the first country column
-X_optimal = X[:, [0, 3, 4, 5]]
-regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
-regressor_OLS.summary()
-#
-# then we fit the model again after removing the Administration column
-X_optimal = X[:, [0, 3, 5]]
-regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
-regressor_OLS.summary()
-#
-# then we fit the model again after removing the Marketing Spend column
-X_optimal = X[:, [0, 3]]
-regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
-regressor_OLS.summary()
+# Repeating steps 3, 4 and 5 until our model is finalized
+numFeatures = len(X_optimal[0])
+for i in range(0, numFeatures):
+    # Step 2.2: Fit the new regressor model to the optimal data set
+    regressor_OLS = sm.OLS(endog=y, exog=X_optimal).fit()
+    # Step 3: Find the maximum P-value and check if it is greater than the SL
+    maxPvalue = max(regressor_OLS.pvalues).astype(float)
+    print('P =', maxPvalue,
+          '\tR2 =', regressor_OLS.rsquared,
+          '\tR2A =', regressor_OLS.rsquared_adj)
+    if maxPvalue > SL:
+        for j in range(0, numFeatures - i):
+            if regressor_OLS.pvalues[j].astype(float) == maxPvalue:
+                # Step 4: Remove the variable as is is correlated with y
+                X_optimal = np.delete(X_optimal, j, 1)
+    else:
+        # Step 5: our model is ready
+        break
 
 # here the marketing spend feature generated a P-value of 0.06 which is just
 # slightly above the significance level to stay in the model. So instead of
@@ -110,6 +103,7 @@ regressor_OLS.summary()
 # certainty whether we need to keep Marketing Spend or remove it. But as far
 # as Backward Elimination is concerned, we have removed it and our model is
 # ready. So we stop the regression here.
+regressor_OLS.summary()
 
 # splitting the optimal dataset into Training set and the Test set
 X_train, X_test, y_train, y_test = train_test_split(
@@ -119,6 +113,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=0
 )
 
+#==============================================================================#
+
 # fitting optimal multiple linear regression model to the training data set
 linRegressor = LinearRegression()
 linRegressor.fit(X_train, y_train)
@@ -126,6 +122,8 @@ linRegressor.fit(X_train, y_train)
 # testing the performance of our model on test data set by predicting the
 # dependent variable for test data set
 y_pred = linRegressor.predict(X_test)
+
+#==============================================================================#
 
 # used to plot the model
 y_train_pred = linRegressor.predict(X_train)
@@ -157,3 +155,50 @@ ax.set_ylabel('R&D Spend')
 ax.set_zlabel('Profit')
 #
 plt.show()
+
+#==============================================================================#
+
+# Comparison of Adjusted-R2 with R2
+#
+# predictors: [0, 1, 2, 3, 4, 5]
+# Max P-value:                     0.989794124161
+# R-squared:                       0.950752484336
+# Adj. R-squared:                  0.945156175737
+#
+# predictors: [0, 1, 3, 4, 5]
+# Max P-value:                     0.939832977258
+# R-squared:                       0.950752299106
+# Adj. R-squared:                  0.946374725693
+#
+# predictors: [0, 3, 4, 5]
+# Max P-value:                     0.60175510785
+# R-squared:                       0.950745994068
+# Adj. R-squared:                  0.94753377629
+#
+# predictors: [0, 3, 5]
+# Max P-value:                     0.0600303971911
+# R-squared:                       0.950450301556
+# Adj. R-squared:                  0.94834180375
+#
+# predictors: [0, 3]
+# Max P-value:                     2.78269692297e-24
+# R-squared:                       0.94653531608
+# Adj. R-squared:                  0.945421468499
+#
+# R2:
+# Every predictor added to a model always increases R-squared.
+# Every predictor removed from a model always decreases R-squared.
+# This happens irrespective of the significance of the independent variable.
+# So it can not be used to verify the goodness of our model.
+#
+# Adj. R2 or R2A:
+# Every predictor added to a model increases R2A if it is significant for y
+# otherwise it decreases the R2A.
+# Every predictor removed from a model decreases R2A if it is significant for y
+# otherwise it increases R2A.
+# So it is better to use R2A instead of R2 to verify the goodness of our model.
+#
+# As the R2A value decreases on removing the variable 'Marketing Spend' which
+# is at column 5 of original input X, so we may also decide to keep it in the
+# model. This is different from if we use P-value to decide because the P-value
+# of Marketing Spend is greater than the 5% significance level.
