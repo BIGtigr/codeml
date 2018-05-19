@@ -14,6 +14,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 
+# ============================================================================ #
+
 np.set_printoptions(threshold=np.nan)
 
 # constant properties that need changes according to the actual problem
@@ -34,6 +36,8 @@ y = dataset.iloc[:, Dependent_Variable_Column].values
 # 1. We don't have enough data to keep separate training and test data sets
 # 2. We need as much info as possible to train our model to make it accurate
 # even feature scaling is not required
+
+# ============================================================================ #
 
 # fitting simple linear regression to the data set
 # this has been done to keep a reference to compare with polynomial regression
@@ -60,6 +64,8 @@ polyRegressor4 = PolynomialFeatures(degree=4)
 X_poly4 = polyRegressor4.fit_transform(X)
 linPolyRegressor4 = LinearRegression()
 linPolyRegressor4.fit(X_poly4, y)
+
+# ============================================================================ #
 
 # visualising the original input feature matrix
 plt.scatter(X, y, color='red', marker='o', label='Samples')
@@ -108,3 +114,26 @@ plt.xlabel('Polition Level')
 plt.ylabel('Salary')
 plt.legend(loc='best')
 plt.show()
+
+# ============================================================================ #
+
+posLevel = 6.5
+
+# predicting a new result with linear regression
+print('Predicting using Linear Regression:', '='*35, sep='\n')
+print('Pos. Level = %d, Salary = %.0f' %
+      (posLevel,
+      linRegressor.predict(posLevel)))
+print()
+
+# predicting a new result with polynomial regression
+print('Predicting using Polynomial Regression:', '='*39, sep='\n')
+print('Degree 2, Pos. Level = %d, Salary = %.0f' %
+      (posLevel,
+      linPolyRegressor2.predict(polyRegressor2.fit_transform(posLevel))))
+print('Degree 3, Pos. Level = %d, Salary = %.0f' %
+      (posLevel,
+      linPolyRegressor3.predict(polyRegressor3.fit_transform(posLevel))))
+print('Degree 4, Pos. Level = %d, Salary = %.0f' %
+      (posLevel,
+      linPolyRegressor4.predict(polyRegressor4.fit_transform(posLevel))))
