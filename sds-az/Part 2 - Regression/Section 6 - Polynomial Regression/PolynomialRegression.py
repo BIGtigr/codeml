@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
+import matplotlib.pyplot as plt
 
 np.set_printoptions(threshold=np.nan)
 
@@ -43,7 +44,34 @@ linRegressor.fit(X, y)
 # the polynomial regressor is a transformation tool than can be used to trans-
 # form an input feature X into another feature with multiple degrees of
 # independet variable as we provide at the time of creating the regressor.
-polyRegressor = PolynomialFeatures(degree=2)
-X_poly = polyRegressor.fit_transform(X)
-linPolyRegressor = LinearRegression()
-linPolyRegressor.fit(X_poly, y)
+# higher degrees may lead to overfitting of the model to the input
+polyRegressor2 = PolynomialFeatures(degree=2)
+X_poly2 = polyRegressor2.fit_transform(X)
+linPolyRegressor2 = LinearRegression()
+linPolyRegressor2.fit(X_poly2, y)
+
+# visualising the original input feature matrix
+plt.scatter(X, y, color='red', marker='o', label='Samples')
+
+# visualising the simple linear regression results
+plt.plot(X, linRegressor.predict(X), color='orange', label='Linear Regression')
+
+# visualising the polynomial linear regression results
+# here we need to take care of 2 things while plotting the results of a poly-
+# nomial regression
+# 1. the dependent variable term we have to use for plotting should be based on
+#   the input that has the polynomial terms in it, so we can not use X here
+# 2. the polynomial input we use for prediction of dependent variable should
+#   not be already tied to the input feature matrix without polynomial terms,
+#   i.e., we can not use the input polynomial feature matrix which was used for
+#   training, so we can not use X_poly here. But because our test and training
+#   data sets coincide for this case, we need to create a separate polynomial
+#   feature matrix from X which is equivalent of X_poly.
+plt.plot(X, linPolyRegressor2.predict(polyRegressor2.fit_transform(X)),
+             color='blue', label='Polynomial Regression (degree 2)')
+
+plt.title('Truth or Bluff')
+plt.xlabel('Polition Level')
+plt.ylabel('Salary')
+plt.legend(loc='best')
+plt.show()
