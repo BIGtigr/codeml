@@ -45,10 +45,21 @@ linRegressor.fit(X, y)
 # form an input feature X into another feature with multiple degrees of
 # independet variable as we provide at the time of creating the regressor.
 # higher degrees may lead to overfitting of the model to the input
+# trying multiple degrees
 polyRegressor2 = PolynomialFeatures(degree=2)
 X_poly2 = polyRegressor2.fit_transform(X)
 linPolyRegressor2 = LinearRegression()
 linPolyRegressor2.fit(X_poly2, y)
+#
+polyRegressor3 = PolynomialFeatures(degree=3)
+X_poly3 = polyRegressor3.fit_transform(X)
+linPolyRegressor3 = LinearRegression()
+linPolyRegressor3.fit(X_poly3, y)
+#
+polyRegressor4 = PolynomialFeatures(degree=4)
+X_poly4 = polyRegressor4.fit_transform(X)
+linPolyRegressor4 = LinearRegression()
+linPolyRegressor4.fit(X_poly4, y)
 
 # visualising the original input feature matrix
 plt.scatter(X, y, color='red', marker='o', label='Samples')
@@ -69,6 +80,12 @@ plt.plot(X, linRegressor.predict(X), color='orange', label='Linear Regression')
 #   feature matrix from X which is equivalent of X_poly.
 plt.plot(X, linPolyRegressor2.predict(polyRegressor2.fit_transform(X)),
              color='blue', label='Polynomial Regression (degree 2)')
+#
+plt.plot(X, linPolyRegressor3.predict(polyRegressor3.fit_transform(X)),
+             color='pink', label='Polynomial Regression (degree 3)')
+#
+plt.plot(X, linPolyRegressor4.predict(polyRegressor4.fit_transform(X)),
+             color='green', label='Polynomial Regression (degree 4)')
 
 plt.title('Truth or Bluff')
 plt.xlabel('Polition Level')
