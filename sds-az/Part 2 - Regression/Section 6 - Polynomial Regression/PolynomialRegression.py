@@ -67,6 +67,13 @@ plt.scatter(X, y, color='red', marker='o', label='Samples')
 # visualising the simple linear regression results
 plt.plot(X, linRegressor.predict(X), color='orange', label='Linear Regression')
 
+# restructuring input with lower step size to make the plot smooth
+# the values are generated within the half-open interval [start, stop)
+# so we need to add extra step to include all valid values from X
+stepSize = 0.1
+X_grid = np.arange(start=min(X), stop=max(X)+stepSize, step=stepSize)
+X_grid = X_grid.reshape((len(X_grid), 1))
+
 # visualising the polynomial linear regression results
 # here we need to take care of 2 things while plotting the results of a poly-
 # nomial regression
@@ -78,14 +85,23 @@ plt.plot(X, linRegressor.predict(X), color='orange', label='Linear Regression')
 #   training, so we can not use X_poly here. But because our test and training
 #   data sets coincide for this case, we need to create a separate polynomial
 #   feature matrix from X which is equivalent of X_poly.
-plt.plot(X, linPolyRegressor2.predict(polyRegressor2.fit_transform(X)),
-             color='blue', label='Polynomial Regression (degree 2)')
+# using the input with lower step size does not impact the prediction because
+# the models used for prediction were fitted to the polynomial inputs derived
+# from the original input feature matrix with actual number of samples.
+plt.plot(X_grid,
+         linPolyRegressor2.predict(polyRegressor2.fit_transform(X_grid)),
+         color='blue',
+         label='Polynomial Regression (degree 2)')
 #
-plt.plot(X, linPolyRegressor3.predict(polyRegressor3.fit_transform(X)),
-             color='pink', label='Polynomial Regression (degree 3)')
+plt.plot(X_grid,
+         linPolyRegressor3.predict(polyRegressor3.fit_transform(X_grid)),
+         color='pink',
+         label='Polynomial Regression (degree 3)')
 #
-plt.plot(X, linPolyRegressor4.predict(polyRegressor4.fit_transform(X)),
-             color='green', label='Polynomial Regression (degree 4)')
+plt.plot(X_grid,
+         linPolyRegressor4.predict(polyRegressor4.fit_transform(X_grid)),
+         color='green',
+         label='Polynomial Regression (degree 4)')
 
 plt.title('Truth or Bluff')
 plt.xlabel('Polition Level')
