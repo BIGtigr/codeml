@@ -1,0 +1,81 @@
+# Support Vector Machines support linear and non-linear regression that we can
+# refer to as SVR. Instead of trying to fit the largest possible street between
+# two classes while limiting margin violations, SVR tries to fit as many
+# instances as possible on the street while limiting margin violations. The
+# width of the street is controlled by a hyper parameter epsilon (ε).
+
+# SVR performs linear regression in a higher dimensional space.
+# We can think of SVR as if each data point in the training set represents its
+# own dimension.
+# When we evaluate our kernel between a test point and a point from the
+# training set, the resulting value gives us the coordinate of our test point
+# in that dimension.
+# The vector we get when we evaluate the test point for all the points in the
+# training set, then it is the representation of the test point in the higher
+# dimensional space. Once we have this vector, we can use it to perform the
+# linear regression in the higher dimensional space.
+
+# SVR requires a training set T = {X, y} which covers the domain of interest
+# i.e., X and it is accompanied by solutions on that domain i.e., y
+# The work of SVM is to approximate the function we used to generate the
+# training set, f(X) = y
+
+# In a classification problem, the vectors X are used to define a hyperplane
+# that separates the two classes in our solution y. These vectors are used to
+# perform linear regression. The vectors closest to the test point are referred
+# to as support vectors. We can evaluate our function anywhere so any of the
+# vectors could be closest to our test evaluation location.
+
+# Steps to build SVR:
+# 1. Collect a training set, T = {X, y}
+# 2. Choose a kernel and its parameters as well as any regularization needed
+# 3. Form the correlation matrix, K (K is in uppercase here)
+# 4. Train the machine, exactly or approximately, to get contraction
+#   coefficients, α = {α[i]}
+# 5. Use those coefficients to create the estimator, f(X, α, x*) = y*
+
+# Why to choose the kernel:
+# Kernel choice is important because if we choose a kernel that goes to zero as
+# the distance between the agruments grow, as we move away from the training
+# data the machine will return the mean value of the training data.
+# for example, Gaussian kernel
+
+# Why to choose regularization:
+# In addition to choosing kernel, regularization is also important and it
+# matters because due to the training sets with noise, the regularizer will
+# help prevent wild fluctuations between data points by smoothing out the prior.
+
+# What is correlation matrix:
+# Mainly we are evaluating the kernel for all pairs of points in the training
+# set and then adding the regularizer which results in a matrix.
+
+# K[i,j] = exp( Σ k=1:d ( θ[k].|x[i][k] - x[j][k]|^2 ) ) + ε.δ[i][j]
+
+# Here is the main part of the algorithm, we have -
+# K.α = y
+#   y => the vector of values corresponding to the training set
+#   K => the correlation matrix
+#   α => a set of unknowns we need to solve for
+# which leads to,
+# α = inverse(K).y
+# Once α parameters are known, we form the estimator as follows -
+# We use the coefficients we found during the optimization step and the kernel
+# we started-off with.
+# To estimate the value of y* for a test point, x*, we first compute the
+# correlation vector, k (k is in lowercase here)
+# k[i] = exp( Σ k=1:d ( θ[k].|x[i][k] - x[*][k]|^2 ) )
+# and then compute y* as
+# y* = α.k
+
+# How SVR is different from Linear Regression:
+# SVR has a different regression goal as compared to the one of Linear
+# Regression. In LR we are trying to minimize the error between the prediction
+# and data. In SVR our goal is to make sure that the errors do not exceed the
+# threshold.
+# What SVR does in this sense is that it classifies all the linear predictions
+# into two types:
+# 1. The predictor lines that pass through the error bars drawn.
+# 2. The predictor lines that don't pass through the error bars drawn.
+# The lines that don't pass through those bars are not acceptable because it
+# means that the difference or the distance between the predictions and the
+# actual values at those points have exceeded the threshold.
