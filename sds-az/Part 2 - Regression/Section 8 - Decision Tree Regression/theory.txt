@@ -1,0 +1,21 @@
+# What are decision trees ?
+#
+# A decision tree is basically a binary tree flowchart where each node splits
+# a group of observations according to some feature variable. The goal of a
+# decision tree is to split your data into groups such that every element in
+# one group belongs to the same category. Decision trees can also be used to
+# approximate a continuous target variable. In that case, the tree will make
+# splits such that each group has the lowest mean squared error (MSE) i.e., the
+# values are grouped on the basis of similarity with each other.
+#
+# The biggest drawback of decision tree algo is that the split it makes at
+# each node will be optimized for the dataset it is fit to. This splitting
+# process will rarely generalize well to other data. However, we can generate
+# huge numbers of these decision trees, tuned in slightly different ways, and
+# combine their predictions to create some of the best models today.
+#
+# Entropy ?
+# see explanation.pdf
+#
+# Information Gain ?
+# see explanation.pdf
