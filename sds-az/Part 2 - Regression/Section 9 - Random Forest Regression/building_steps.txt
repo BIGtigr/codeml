@@ -1,0 +1,18 @@
+# Random Forest is a version of Ensemble Learning. Other examples are Gradient
+# Boosting etc.
+
+# Ensemble Learning is when multiple algorithms are taken at a time or the same
+# algorithm is taken multiple times and put together to make a model which is
+# much more powerful than the original.
+
+# Steps:
+# 1. Pick a random K data points from the training data set to form a subset.
+# 2. Build the decision tree associated to these K data points of the subset.
+# 3. Choose the numer of trees to be built (Ntrees), and repeat steps 1 and 2.
+# 4. For a new test data point P, make each of the Ntrees predict the value
+#   y[i: 1 to Ntrees] and assign the new data point the average across all
+#   predicted values of y[i].
+
+# In this way even if a decision tree model does not fit the data well, then
+# instead of taking it individually for prediction, we can take advantage of
+# multiple decision trees to improve the overall accuracy.
