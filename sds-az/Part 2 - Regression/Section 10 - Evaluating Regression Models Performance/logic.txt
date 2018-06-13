@@ -1,0 +1,103 @@
+What is R-squared (R2)?
+
+R-squared is the coefficient of determination. It is a measure of the goodness
+of a model, it suggests how much variation in the observations is being
+explained by the input features. R-squared measures how much prediction error
+we are able to eliminate.
+
+What is the problem?
+
+R-squared can be artificially made high. That is we can increase the value of
+R-squared by simply adding more and more independent variables to our model.
+In other words R-squared never decreases upon adding more independent
+variables. And sometimes some of these variables might be very insignificant
+and can be really useless to our model.
+
+why does this happen?
+
+    R-squared = (SST-SSE)/SST or
+    R-squared = 1 - (SSE/SST) also written as R2 = [1 - (SSres/SStot)]
+
+SSE => Sum of Squares of Errors (Residuals) or SSres
+SST => Total Sum of Squares or SStot
+Residual or Error => actual - expected
+
+R-squared will be maximum when SSE/SST will be minimum. Now SST is the average
+value of all differences of y from average value, so it is independent of X and
+it does not change by adding more feature variables. In order for SSE/SST to be
+minimum SSE should be minimum. By adding a new feature we are not modifying the
+actual observations and their average, so SST is same in this process.
+
+Now SSE will decrease as we add more explanatory variables to our model. This
+is because as we add more explanatory variables to our regression model,
+our regression model will fit the data points better and hence sum of squared
+error will reduce. Hence R-squared will increase even when the variable is not
+significant to our model.
+
+What's the explanation?
+
+When we add a new feature variable to the regression model, somehow the process
+will find a way that will find a non-zero value for the coefficient of the new
+added feature variable that will minimize SSE, which increases R-squared. If
+the SSE becomes worse i.e., increases after adding the new feature, the model
+will make the value of the coefficient as zero (or close to zero) trying to
+keep the SSE same as before adding the feature, this makes R-squared remain the
+same in worst case. All this means that the value of R-squared will not
+decrease i.e., will increase even if the added feature is non-significant to
+the model.
+
+In practicality, it rarely happens that a coefficient becomes zero. Even if we
+add such a feature which is known to be ineffective for the cause of
+observation, there will always be atleast slight random correlation between the
+dependent variable and independent feature added, the model will pick it up and
+assign a very small non-zero value to it, as a result the SSE increases with
+a very tiny amount when it should remain the same.
+
+Thus the increased R-square does not signify that the newly added feature
+explains the variation well and can not be considered an effective measure of
+goodness of the model.
+
+What's the solution?
+
+To avoid this problem caused by R-squared we make use of Adjusted R-squared.
+
+What is adjusted R-squared (R2A)?
+
+It penalizes us for adding those independent features which don't improve our
+model.
+
+    Adj.R-squared = 1 - (1-R2)*(n-1)/(n-p-1) , where n >> p
+
+n => number of samples
+p => number of independent feature variables or regressors
+
+Here, p is in the denominator. When we add more features, p increases, then the
+denominator decreases, the ratio increases, the subtracted term also increases
+and finally R2A decreases. So if p increases, R2A decreases.
+
+At the same time, by adding more features we anyhow increase R2, so the term
+(1-R2) decreases, then the subtracted term decreases and finally R2A increases.
+So, if R2 increases, R2A also increases.
+
+Due to both these into effect at the same time, there is a battle kind of
+situation between the two multiple terms (1-R2) and (n-1)/(n-p-1).
+
+How Adj.R-squared works?
+
+case 1: When the new added feature is non-significant -
+    R2 increases with a tiny amount so (1-R2) decreases with tiny amount, so
+    it has less effect in the multiplied term.
+    Decrease in (n-p-1) is comparatively more, so is the increase in
+    (n-1)/(n-p-1), so it has more effect in the multiplied term.
+    Effectively the subtracted term increases and R2A decreases.
+    This acts as a penalty for adding a non-significant variable.
+    
+case 2: When the new added feature is significant & helping the model -
+    R2 increases substantially, and (1-R2) decreases equivalently, so it
+    has more effect in the multiplied term and overwhelms the penalization
+    factor.
+    Decrease in (n-p-1) is comparatively less, so is the increase in
+    (n-1)/(n-p-1), so it has less effect in the multiplied term.
+    Effectively the subtracted term decreases and R2A increases.
+    Benefit of the improved model acts as a mitigation for the penalty for
+    adding a new variable.
