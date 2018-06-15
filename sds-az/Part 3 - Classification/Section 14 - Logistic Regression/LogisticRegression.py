@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
 
 np.set_printoptions(threshold=np.nan)
 
@@ -37,3 +38,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
+
+# logistic regression is a linear classifier, which means that since here we
+# are in the two dimensions, the two categories of users are going to be
+# separated by a straight line, our intuition of logistic regression will be
+# better shaped when we find out about the graphical results
+classifier = LogisticRegression(random_state=0)
+classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
