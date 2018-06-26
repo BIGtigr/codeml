@@ -1,0 +1,20 @@
+# Logistic Regression was a linear classifier but K Nearest Neighbours (K-NN)
+# is a non-linear classifier.
+
+# Steps required for K Nearest Neighbours (K-NN) algorithm:
+
+# 1. Choose the number K of the neighbours
+#   This number signifies the number of data points we want to consider to
+#   check the vicinity from the test data point. In practice, a commonly used
+#   value is 5, we may take any odd value.
+
+# 2. Take the K-NN of the new data point according to the Euclidean Distance.
+#   In practice we might also use any other distance calculating method like
+#   Manhattan Distance etc. but Euclidean Distance is commonly used.
+
+# 3. Among these K neighbours, count the number of data points in each category
+
+# 4. Assign the new data point to the category which had the most data points
+#   out of total K points we selected in 1.
+
+# 5. FIN. the model is ready
